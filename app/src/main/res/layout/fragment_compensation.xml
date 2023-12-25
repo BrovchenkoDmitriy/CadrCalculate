@@ -21,21 +21,24 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:padding="8dp">
-
-        <EditText
-            android:id="@+id/tv_begin_work"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:autofillHints="creditCardExpirationDate"
-            android:hint="Введите дату приёма"
-            android:inputType="date"
-
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_begin_work"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/til_begin_work"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="8dp"
+    app:layout_constraintEnd_toStartOf="@+id/iv_begin_work"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/tv_begin_work"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Введите дату приёма"
+    android:inputType="date"
+    />
+</com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_begin_work"
@@ -43,23 +46,29 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp"
             android:src="@drawable/ic_calendar_day"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_begin_work"
+            app:layout_constraintBottom_toBottomOf="@+id/til_begin_work"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_begin_work"
+            app:layout_constraintTop_toTopOf="@+id/til_begin_work"
             app:tint="@color/black" />
 
-        <EditText
-            android:id="@+id/tv_end_work"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_end_work"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/til_begin_work"
+            app:layout_constraintStart_toStartOf="@+id/til_begin_work"
+            app:layout_constraintTop_toBottomOf="@+id/til_begin_work"
+            >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tv_end_work"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Введите дату увольнения"
             android:inputType="date"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_begin_work"
-            app:layout_constraintStart_toStartOf="@+id/tv_begin_work"
-            app:layout_constraintTop_toBottomOf="@+id/tv_begin_work" />
+            />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tv_result"
@@ -79,9 +88,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp"
             android:src="@drawable/ic_calendar_day"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_end_work"
+            app:layout_constraintBottom_toBottomOf="@+id/til_end_work"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_end_work"
+            app:layout_constraintTop_toTopOf="@+id/til_end_work"
             app:tint="@color/black" />
 
         <CheckBox
@@ -90,8 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="Предоставленный отпуск"
-            app:layout_constraintStart_toStartOf="@+id/tv_end_work"
-            app:layout_constraintTop_toBottomOf="@+id/tv_end_work" />
+            app:layout_constraintStart_toStartOf="@+id/til_end_work"
+            app:layout_constraintTop_toBottomOf="@+id/til_end_work" />
 
         <EditText
             android:id="@+id/editTextText"

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_margin="1dp"
     android:elevation="4dp"
@@ -17,43 +17,68 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:padding="16dp">
-
-        <EditText
-            android:id="@+id/tv_begin_work"
-            android:layout_width="wrap_content"
+        android:padding="8dp">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_begin_work"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:hint="Введите дату приёма на работу"
-            android:inputType="date"
-            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_begin_work"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tv_begin_work"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите дату приёма"
+            android:inputType="date"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <EditText-->
+<!--            android:id="@+id/tv_begin_work"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:hint="Введите дату приёма на работу"-->
+<!--            android:inputType="date"-->
+<!--            android:textSize="18sp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_begin_work"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_calendar_day"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_begin_work"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/tv_begin_work"
-            app:tint="@color/black" />
-
-        <EditText
-            android:id="@+id/tv_end_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="Введите дату увольнения"
-            android:inputType="date"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_begin_work"
-            app:layout_constraintTop_toBottomOf="@+id/tv_begin_work" />
+            android:src="@drawable/ic_calendar_day"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/til_begin_work"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/til_begin_work"
+            app:tint="@color/black" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_end_work"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/til_begin_work"
+            app:layout_constraintStart_toStartOf="@+id/til_begin_work"
+            app:layout_constraintTop_toBottomOf="@+id/til_begin_work"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_end_work"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите дату увольнения"
+                android:inputType="date"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tv_result"
@@ -67,27 +92,28 @@
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_end_work"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_calendar_day"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_end_work"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/til_end_work"
 
             app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/tv_end_work"
+            app:layout_constraintTop_toTopOf="@+id/til_end_work"
             app:tint="@color/black" />
 
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="Предоставленный отпуск"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_end_work" />
+            app:layout_constraintTop_toBottomOf="@+id/til_end_work" />
 
         <EditText
             android:id="@+id/editTextText"
@@ -109,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Рассчитать"
-            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextText" />

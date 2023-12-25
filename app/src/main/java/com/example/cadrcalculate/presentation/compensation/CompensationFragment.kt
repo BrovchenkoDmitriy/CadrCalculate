@@ -49,7 +49,7 @@ class CompensationFragment : Fragment() {
         viewModel.startDay.observe(viewLifecycleOwner) {
             with(binding) {
                 val dateFormat = DateFormat.format("\"dd MMMM yyyy\"", getCalendarFromLocalDate(it))
-                tvBeginWork.text.clear()
+                tvBeginWork.text?.clear()
                 tvBeginWork.setText(dateFormat)
 //                tvBeginWork.hint = dateFormat// append(dateFormat)
                 // = dateFormat
@@ -58,7 +58,7 @@ class CompensationFragment : Fragment() {
         viewModel.endDay.observe(viewLifecycleOwner) {
             with(binding) {
                 val dateFormat = DateFormat.format("\"dd MMMM yyyy\"", getCalendarFromLocalDate(it))
-                tvEndWork.text.clear()
+                tvEndWork.text?.clear()
                 tvEndWork.hint = dateFormat//.append(dateFormat.toString())
             }
         }
