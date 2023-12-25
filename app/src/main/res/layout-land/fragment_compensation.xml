@@ -22,14 +22,14 @@
         android:layout_margin="16dp"
         android:padding="16dp">
 
-        <TextView
+        <EditText
             android:id="@+id/tv_begin_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:hint="Введите дату приёма на работу"
-
+            android:inputType="date"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,26 +38,26 @@
             android:id="@+id/iv_begin_work"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
             android:src="@drawable/ic_calendar_day"
             app:layout_constraintBottom_toBottomOf="@+id/tv_begin_work"
-            app:layout_constraintStart_toEndOf="@+id/tv_begin_work"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/tv_begin_work"
             app:tint="@color/black" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_end_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="Введите дату увольнения"
+            android:inputType="date"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/tv_begin_work"
             app:layout_constraintTop_toBottomOf="@+id/tv_begin_work" />
 
         <TextView
             android:id="@+id/tv_result"
-            android:layout_width="wrap_content"
+            android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
@@ -65,8 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent"
-             />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_end_work"
@@ -74,7 +73,8 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_calendar_day"
             app:layout_constraintBottom_toBottomOf="@+id/tv_end_work"
-            app:layout_constraintStart_toStartOf="@+id/iv_begin_work"
+
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/tv_end_work"
             app:tint="@color/black" />
 
