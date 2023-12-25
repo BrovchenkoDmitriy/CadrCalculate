@@ -20,38 +20,44 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:padding="16dp">
+        android:padding="8dp">
 
-        <TextView
+        <EditText
             android:id="@+id/tv_begin_work"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
-            android:hint="Введите дату приёма на работу"
+            android:layout_marginEnd="8dp"
+            android:autofillHints="creditCardExpirationDate"
+            android:hint="Введите дату приёма"
+            android:inputType="date"
 
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_begin_work"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_begin_work"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
             android:src="@drawable/ic_calendar_day"
             app:layout_constraintBottom_toBottomOf="@+id/tv_begin_work"
-            app:layout_constraintStart_toEndOf="@+id/tv_begin_work"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_begin_work"
             app:tint="@color/black" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_end_work"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="1dp"
             android:hint="Введите дату увольнения"
+            android:inputType="date"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_begin_work"
             app:layout_constraintStart_toStartOf="@+id/tv_begin_work"
             app:layout_constraintTop_toBottomOf="@+id/tv_begin_work" />
 
@@ -67,13 +73,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_end_work"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
             android:src="@drawable/ic_calendar_day"
             app:layout_constraintBottom_toBottomOf="@+id/tv_end_work"
-            app:layout_constraintStart_toStartOf="@+id/iv_begin_work"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_end_work"
             app:tint="@color/black" />
 
@@ -89,7 +96,7 @@
         <EditText
             android:id="@+id/editTextText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:ems="10"
             android:hint="Продолжительность отпуска в днях"
             android:inputType="number"
@@ -106,7 +113,7 @@
             android:layout_height="wrap_content"
             android:text="Рассчитать"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
+           android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
