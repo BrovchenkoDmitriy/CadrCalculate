@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:hint="Введите дату приёма"
             android:inputType="date"
+            android:imeOptions="actionDone"
             />
         </com.google.android.material.textfield.TextInputLayout>
 <!--        <EditText-->
@@ -77,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Введите дату увольнения"
                 android:inputType="date"
+                android:imeOptions="actionDone"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,12 +133,13 @@
             tools:visibility="visible" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:id="@+id/calculate_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Рассчитать"
+            android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintEnd_toStartOf="@+id/reset_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_holidays" />
 
@@ -146,6 +149,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="339dp" />
+
+        <Button
+            android:id="@+id/reset_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сброс"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/calculate_button"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/calculate_button"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

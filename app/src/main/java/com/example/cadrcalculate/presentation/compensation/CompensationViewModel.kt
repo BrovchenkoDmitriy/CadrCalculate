@@ -9,21 +9,21 @@ import java.time.LocalDate
 import java.time.Period
 
 class CompensationViewModel : ViewModel() {
-    private val _startDay = MutableLiveData<LocalDate>()
-    val startDay: LiveData<LocalDate>
+    private val _startDay = MutableLiveData<LocalDate?>()
+    val startDay: LiveData<LocalDate?>
         get() = _startDay
-    private val _endDay = MutableLiveData<LocalDate>()
-    val endDay: LiveData<LocalDate>
+    private val _endDay = MutableLiveData<LocalDate?>()
+    val endDay: LiveData<LocalDate?>
         get() = _endDay
     private val _holidays = MutableLiveData<Int>()
     private val holidays: LiveData<Int>
         get() = _holidays
 
-    private val _answer = MutableLiveData<String>()
-    val answer: LiveData<String>
+    private val _answer = MutableLiveData<String?>()
+    val answer: LiveData<String?>
         get() = _answer
 
-    fun setStartDay(startDay: LocalDate) {
+    fun setStartDay(startDay: LocalDate?) {
         _startDay.value = startDay
     }
 
@@ -35,7 +35,7 @@ class CompensationViewModel : ViewModel() {
         if (this.startDay.value != localD) _startDay.value = localD
     }
 
-    fun setEndDay(endDay: LocalDate) {
+    fun setEndDay(endDay: LocalDate?) {
         _endDay.value = endDay
     }
 
@@ -47,8 +47,12 @@ class CompensationViewModel : ViewModel() {
         if (this.endDay.value != localD) _endDay.value = localD
     }
 
-    fun setHolidays(holidays: Int) {
+    fun setHolidays(holidays: Int?) {
         _holidays.value = holidays
+    }
+
+    fun setAnswer(value:String){
+        _answer.value = value
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
