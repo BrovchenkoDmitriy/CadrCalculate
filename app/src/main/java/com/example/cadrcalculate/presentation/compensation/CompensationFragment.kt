@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.RequiresApi
-import androidx.core.content.getSystemService
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -47,7 +46,7 @@ class CompensationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTextListeners()
+        setEditTextChangedListeners()
         setEditTextOnClickListeners()
         setObservers()
 
@@ -104,9 +103,30 @@ class CompensationFragment : Fragment() {
             }
         }
 
-        binding.button2.setOnClickListener {
+        binding.calculateButton.setOnClickListener {
             viewModel.calculateCompensation()
-            binding.tvEndWork.hideKeyboard()
+            it.hideKeyboard()
+
+        }
+        binding.resetButton.setOnClickListener {
+            resetUiState()
+        }
+    }
+
+    private fun resetUiState() {
+        with(binding) {
+            tvBeginWork.clearFocus()
+            viewModel.setStartDay(null)
+            tvBeginWork.setText("")
+            tvEndWork.clearFocus()
+            viewModel.setEndDay(null)
+            tvEndWork.setText("")
+            checkBox.isChecked = false
+            tvResult.text = ""
+            etHolidays.clearFocus()
+            viewModel.setHolidays(null)
+            etHolidays.setText("")
+            viewModel.setAnswer("")
         }
     }
 
@@ -130,7 +150,7 @@ class CompensationFragment : Fragment() {
         }
     }
 
-    private fun setTextListeners() {
+    private fun setEditTextChangedListeners() {
         binding.tvBeginWork.addTextChangedListener(object : TextWatcher {
             private var current = ""
             private val ddmmyyyy = "DDMMYYYY"
@@ -144,7 +164,7 @@ class CompensationFragment : Fragment() {
                 if (p0.toString() == current) {
                     return
                 }
-                binding.tilBeginWork.error = null
+                binding.tilBeginWork.isErrorEnabled = false
                 val parse = textMask(p0.toString(), current, ddmmyyyy, cal)
                 current = parse.first
                 binding.tvBeginWork.setText(current)
@@ -178,7 +198,7 @@ class CompensationFragment : Fragment() {
                 if (p0.toString() == current) {
                     return
                 }
-                binding.tilEndWork.error = null
+                binding.tilEndWork.isErrorEnabled = false
                 val parse = textMask(p0.toString(), current, ddmmyyyy, cal)
                 current = parse.first
                 binding.tvEndWork.setText(current)
@@ -202,22 +222,28 @@ class CompensationFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setObservers() {
         viewModel.startDay.observe(viewLifecycleOwner) {
-            with(binding) {
-                val dateFormat = DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
-                tvBeginWork.text?.clear()
-                tvBeginWork.setText(dateFormat)
-
+            it?.let {
+                with(binding) {
+                    val dateFormat =
+                        DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
+                    tvBeginWork.text?.clear()
+                    tvBeginWork.setText(dateFormat)
+                }
             }
         }
         viewModel.endDay.observe(viewLifecycleOwner) {
-            with(binding) {
-                val dateFormat = DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
-                tvEndWork.text?.clear()
-                tvEndWork.setText(dateFormat)
+            it?.let {
+                with(binding) {
+                    val dateFormat =
+                        DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
+                    tvEndWork.text?.clear()
+                    tvEndWork.setText(dateFormat)
+                }
             }
+
         }
         viewModel.answer.observe(viewLifecycleOwner) {
-            binding.tvResult.text = it
+            binding.tvResult.text = it ?: ""
         }
     }
 
