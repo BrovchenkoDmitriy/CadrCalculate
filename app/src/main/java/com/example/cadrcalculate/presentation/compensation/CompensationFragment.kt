@@ -3,17 +3,19 @@ package com.example.cadrcalculate.presentation.compensation
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.RequiresApi
+import androidx.core.content.getSystemService
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -40,31 +42,15 @@ class CompensationFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("ResourceType")
+    @SuppressLint("ResourceType", "ServiceCast")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTextListeners(binding)
-        viewModel.startDay.observe(viewLifecycleOwner) {
-            with(binding) {
-                val dateFormat = DateFormat.format("\"dd MMMM yyyy\"", getCalendarFromLocalDate(it))
-                tvBeginWork.text?.clear()
-                tvBeginWork.setText(dateFormat)
-//                tvBeginWork.hint = dateFormat// append(dateFormat)
-                // = dateFormat
-            }
-        }
-        viewModel.endDay.observe(viewLifecycleOwner) {
-            with(binding) {
-                val dateFormat = DateFormat.format("\"dd MMMM yyyy\"", getCalendarFromLocalDate(it))
-                tvEndWork.text?.clear()
-                tvEndWork.hint = dateFormat//.append(dateFormat.toString())
-            }
-        }
-        viewModel.answer.observe(viewLifecycleOwner) {
-            binding.tvResult.text = it
-        }
+        setTextListeners()
+        setEditTextOnClickListeners()
+        setObservers()
+
 
         val startDate = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             viewModel.setStartDay(LocalDate.of(year, month + 1, dayOfMonth))
@@ -102,13 +88,13 @@ class CompensationFragment : Fragment() {
 
         binding.checkBox.setOnCheckedChangeListener { buttonView, _ ->
             if (buttonView.isChecked) {
-                binding.editTextText.visibility = View.VISIBLE
+                binding.etHolidays.visibility = View.VISIBLE
             } else {
-                binding.editTextText.visibility = View.GONE
+                binding.etHolidays.visibility = View.GONE
             }
         }
 
-        binding.editTextText.addTextChangedListener {
+        binding.etHolidays.addTextChangedListener {
             it?.let {
                 if (it.isNotEmpty() && !it.contains("[^0-9]")) {
                     viewModel.setHolidays(it.toString().toInt())
@@ -120,6 +106,7 @@ class CompensationFragment : Fragment() {
 
         binding.button2.setOnClickListener {
             viewModel.calculateCompensation()
+            binding.tvEndWork.hideKeyboard()
         }
     }
 
@@ -127,9 +114,121 @@ class CompensationFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+    private fun setEditTextOnClickListeners() {
+        binding.tvBeginWork.setOnFocusChangeListener { view, b ->
+            if (!b && !(view as EditText).text.matches("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex())) {
+                binding.tilBeginWork.error = "формат даты должен быть ДД.ММ.ГГГГ"
+            }
+        }
+        binding.tvBeginWork.setOnClickListener {
+            val text = binding.tvBeginWork.text.toString()
+            val lengthOfNumber = text.indexOfLast {
+                it.isDigit()
+            }
+            binding.tvBeginWork.setSelection(lengthOfNumber + 1)
+        }
+    }
+
+    private fun setTextListeners() {
+        binding.tvBeginWork.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+            private val ddmmyyyy = "DDMMYYYY"
+            private val cal: Calendar = Calendar.getInstance()
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.toString() == current) {
+                    return
+                }
+                binding.tilBeginWork.error = null
+                val parse = textMask(p0.toString(), current, ddmmyyyy, cal)
+                current = parse.first
+                binding.tvBeginWork.setText(current)
+                if (current.matches("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex())
+                ) {
+                    viewModel.setStartDay(current)
+                }
+                val pos = if (parse.second < current.length) parse.second else current.length
+                binding.tvBeginWork.setSelection(pos)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
+        binding.tvEndWork.setOnFocusChangeListener { view, b ->
+            if (!b && !(view as EditText).text.matches("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex())) {
+                binding.tilEndWork.error = "формат даты должен быть ДД.ММ.ГГГГ"
+            }
+        }
+        binding.tvEndWork.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+            private val ddmmyyyy = "DDMMYYYY"
+            private val cal: Calendar = Calendar.getInstance()
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0.toString() == current) {
+                    return
+                }
+                binding.tilEndWork.error = null
+                val parse = textMask(p0.toString(), current, ddmmyyyy, cal)
+                current = parse.first
+                binding.tvEndWork.setText(current)
+                if (current.matches("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex())
+                ) {
+                    viewModel.setEndDay(current)
+                }
+                val pos = if (parse.second < current.length) parse.second else current.length
+                binding.tvEndWork.setSelection(pos)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                //TODO
+            }
+
+        })
+
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setObservers() {
+        viewModel.startDay.observe(viewLifecycleOwner) {
+            with(binding) {
+                val dateFormat = DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
+                tvBeginWork.text?.clear()
+                tvBeginWork.setText(dateFormat)
+
+            }
+        }
+        viewModel.endDay.observe(viewLifecycleOwner) {
+            with(binding) {
+                val dateFormat = DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
+                tvEndWork.text?.clear()
+                tvEndWork.setText(dateFormat)
+            }
+        }
+        viewModel.answer.observe(viewLifecycleOwner) {
+            binding.tvResult.text = it
+        }
+    }
+
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+
 }
 
-//@RequiresApi(Build.VERSION_CODES.O)
 @RequiresApi(Build.VERSION_CODES.O)
 private fun getCalendarFromLocalDate(localDate: LocalDate): Calendar {
     val calendar = Calendar.getInstance()
@@ -137,7 +236,12 @@ private fun getCalendarFromLocalDate(localDate: LocalDate): Calendar {
     return calendar
 }
 
-private fun textMask(value: String, current:String, mask:String, cal:Calendar): Pair<String, Int> {
+private fun textMask(
+    value: String,
+    current: String,
+    mask: String,
+    cal: Calendar
+): Pair<String, Int> {
     var clean = value.toString().replace("[^\\d.]|\\.".toRegex(), "")
     val cleanC = current.replace("[^\\d.]|\\.".toRegex(), "")
 
@@ -189,69 +293,5 @@ private fun textMask(value: String, current:String, mask:String, cal:Calendar): 
 
 }
 
-private fun setTextListeners(binding: FragmentCompensationBinding){
-    binding.tvBeginWork.addTextChangedListener(object : TextWatcher {
-        private var current = ""
-        private val ddmmyyyy = "DDMMYYYY"
-        private val cal: Calendar = Calendar.getInstance()
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            //TODO("Not yet implemented")
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            if (p0.toString() == current) {
-                return
-            }
-
-            val fuck = textMask(p0.toString(), current, ddmmyyyy, cal)
-            current = fuck.first
-            binding.tvBeginWork.setText(current)
-            if (current.matches("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex())
-            ) {
-                Log.d("TAGIL", "SUCCESS")
-            } else {
-                Log.d("TAGIL", "FAILURE")
-            }
-            val pos = if (fuck.second < current.length) fuck.second else current.length
-            binding.tvBeginWork.setSelection(pos)
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            //TODO
-        }
-
-    })
-    binding.tvEndWork.addTextChangedListener(object : TextWatcher {
-        private var current = ""
-        private val ddmmyyyy = "DDMMYYYY"
-        private val cal: Calendar = Calendar.getInstance()
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            //TODO("Not yet implemented")
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            if (p0.toString() == current) {
-                return
-            }
-
-            val fuck = textMask(p0.toString(), current, ddmmyyyy, cal)
-            current = fuck.first
-            binding.tvEndWork.setText(current)
-            if (current.matches("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex())
-            ) {
-                Log.d("TAGIL", "SUCCESS")
-            } else {
-                Log.d("TAGIL", "FAILURE")
-            }
-            val pos = if (fuck.second < current.length) fuck.second else current.length
-            binding.tvEndWork.setSelection(pos)
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            //TODO
-        }
-
-    })
 
 
-}

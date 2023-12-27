@@ -27,8 +27,24 @@ class CompensationViewModel : ViewModel() {
         _startDay.value = startDay
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setStartDay(startDay: String) {
+        val splitByDot = startDay.split(".")
+        val localD =
+            LocalDate.of(splitByDot[2].toInt(), splitByDot[1].toInt(), splitByDot[0].toInt())
+        if (this.startDay.value != localD) _startDay.value = localD
+    }
+
     fun setEndDay(endDay: LocalDate) {
         _endDay.value = endDay
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setEndDay(endDay: String) {
+        val splitByDot = endDay.split(".")
+        val localD =
+            LocalDate.of(splitByDot[2].toInt(), splitByDot[1].toInt(), splitByDot[0].toInt())
+        if (this.endDay.value != localD) _endDay.value = localD
     }
 
     fun setHolidays(holidays: Int) {
