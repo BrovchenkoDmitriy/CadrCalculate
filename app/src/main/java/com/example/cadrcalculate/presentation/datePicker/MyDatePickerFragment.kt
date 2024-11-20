@@ -1,6 +1,7 @@
-package com.example.cadrcalculate.presentation.compensation
+package com.example.cadrcalculate.presentation.datePicker
 
 import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
@@ -9,7 +10,8 @@ import java.util.Calendar
 import java.util.Date
 
 private const val ARG_DATE = "date"
-class MyDatePickerFragment:DialogFragment(), DatePickerDialog.OnDateSetListener{
+
+class MyDatePickerFragment: DialogFragment(), OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val date = arguments?.getSerializable(ARG_DATE) as Date
@@ -18,7 +20,7 @@ class MyDatePickerFragment:DialogFragment(), DatePickerDialog.OnDateSetListener{
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val result = DatePickerDialog(requireContext(), this, year,month, day)
+        val result = DatePickerDialog(requireContext(), this, year, month, day)
         result.datePicker.spinnersShown = true
         return result
     }
@@ -30,7 +32,7 @@ class MyDatePickerFragment:DialogFragment(), DatePickerDialog.OnDateSetListener{
         endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
     companion object {
-        fun newInstance(date: Date): MyDatePickerFragment{
+        fun newInstance(date: Date): MyDatePickerFragment {
             val args = Bundle().apply {
                 putSerializable(ARG_DATE, date)
             }

@@ -9,15 +9,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.RequiresApi
+import androidx.core.text.isDigitsOnly
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.cadrcalculate.R
 import com.example.cadrcalculate.databinding.FragmentCompensationBinding
 import java.time.LocalDate
 import java.util.Calendar
@@ -93,6 +96,14 @@ class CompensationFragment : Fragment() {
             }
         }
 
+        binding.cbDecretEndDate?.setOnCheckedChangeListener { buttonView, _ ->
+            if (buttonView.isChecked) {
+                binding.tvDecretEndDate?.visibility = View.VISIBLE
+            } else {
+                binding.tvDecretEndDate?.visibility = View.GONE
+            }
+        }
+
         binding.etHolidays.addTextChangedListener {
             it?.let {
                 if (it.isNotEmpty() && !it.contains("[^0-9]")) {
@@ -127,6 +138,9 @@ class CompensationFragment : Fragment() {
             viewModel.setHolidays(null)
             etHolidays.setText("")
             viewModel.setAnswer("")
+            cbDecretEndDate?.isChecked = false
+            tvDecretEndDate?.text=""
+
         }
     }
 
@@ -228,6 +242,7 @@ class CompensationFragment : Fragment() {
                         DateFormat.format("\"dd.MM.yyyy\"", getCalendarFromLocalDate(it))
                     tvBeginWork.text?.clear()
                     tvBeginWork.setText(dateFormat)
+                    tvDecretEndDate?.text = DateFormat.format("dd.MM.yyyy", getCalendarFromLocalDate(it.plusMonths(18)))// .setText(decretEndDate)
                 }
             }
         }
@@ -243,11 +258,23 @@ class CompensationFragment : Fragment() {
 
         }
         viewModel.answer.observe(viewLifecycleOwner) {
-            binding.tvResult.text = it ?: ""
+         //   binding.tvResult.text = it ?: ""
+            it?.let{
+                if(it.replace(" ","").isDigitsOnly() && it.replace(" ","").isNotEmpty()){
+                    val period = it.split(" ")
+                    val years = resources.getQuantityString( R.plurals.correct_count_of_years, period[0].toInt(), period[0].toInt())
+                    val months = resources.getQuantityString(R.plurals.correct_count_of_month, period[1].toInt(), period[1].toInt())
+                    val days = resources.getQuantityString(R.plurals.correct_count_of_days, period[2].toInt(), period[2].toInt())
+                    val result = "$years,\n$months,\n$days"
+                    binding.tvResult.text = result
+                }else{binding.tvResult.text = it}
+
+            }?:""
         }
+
     }
 
-    fun View.hideKeyboard() {
+    private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }

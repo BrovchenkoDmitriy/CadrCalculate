@@ -21,6 +21,47 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:padding="8dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/til_begin_work">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/cb_decret_end_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="1dp"
+                    android:text="Отобразить дату через полтора года" />
+
+                <TextView
+                    android:id="@+id/tv_decret_end_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_begin_work"
             android:layout_width="0dp"
@@ -29,119 +70,122 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/iv_begin_work"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tv_begin_work"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Введите дату приёма"
-            android:inputType="date"
-            android:imeOptions="actionDone"
-            />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_begin_work"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите дату приёма"
+                android:imeOptions="actionDone"
+                android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
-<!--        <EditText-->
-<!--            android:id="@+id/tv_begin_work"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:hint="Введите дату приёма на работу"-->
-<!--            android:inputType="date"-->
-<!--            android:textSize="18sp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_begin_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_calendar_day"
             android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_calendar_day"
             app:layout_constraintBottom_toBottomOf="@+id/til_begin_work"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/til_begin_work"
             app:tint="@color/black" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_end_work"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="@+id/til_begin_work"
             app:layout_constraintStart_toStartOf="@+id/til_begin_work"
-            app:layout_constraintTop_toBottomOf="@+id/til_begin_work"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/til_begin_work">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tv_end_work"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Введите дату увольнения"
-                android:inputType="date"
                 android:imeOptions="actionDone"
-                />
+                android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tv_result"
             android:layout_width="309dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/iv_end_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_calendar_day"
             android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_calendar_day"
             app:layout_constraintBottom_toBottomOf="@+id/til_end_work"
 
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/til_end_work"
             app:tint="@color/black" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Предоставленный отпуск"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_end_work" />
+            android:layout_gravity="center"
+            android:layout_margin="1dp"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/til_end_work">
 
-        <EditText
-            android:id="@+id/et_holidays"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_marginEnd="16dp"
-            android:hint="Продолжительность отпуска в днях"
-            android:inputType="number"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="@+id/checkBox"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox"
-            tools:visibility="visible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="Предоставленный отпуск" />
+
+                <EditText
+                    android:id="@+id/et_holidays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="3dp"
+                    android:ems="10"
+                    android:hint="Продолжительность отпуска в днях"
+                    android:inputType="number"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
 
         <Button
             android:id="@+id/calculate_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Рассчитать"
             android:layout_marginHorizontal="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Рассчитать"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_result"
             app:layout_constraintEnd_toStartOf="@+id/reset_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_holidays" />
+            app:layout_constraintTop_toTopOf="@+id/tv_result" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -154,8 +198,8 @@
             android:id="@+id/reset_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Сброс"
             android:layout_marginHorizontal="8dp"
+            android:text="Сброс"
             app:layout_constraintBottom_toBottomOf="@+id/calculate_button"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/calculate_button"
